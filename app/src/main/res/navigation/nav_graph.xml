@@ -9,5 +9,19 @@
         android:id="@+id/studentFormFragment"
         android:name="com.example.chooseyourcourse.StudentFormFragment"
         android:label="fragment_student_form"
-        tools:layout="@layout/fragment_student_form" />
+        tools:layout="@layout/fragment_student_form" >
+        <action
+            android:id="@+id/action_studentFormFragment_to_marksFragment"
+            app:destination="@id/marksFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/marksFragment"
+        android:name="com.example.chooseyourcourse.MarksFragment"
+        android:label="fragment_marks"
+        tools:layout="@layout/fragment_marks">
+        <argument
+            android:name="id"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
 </navigation>

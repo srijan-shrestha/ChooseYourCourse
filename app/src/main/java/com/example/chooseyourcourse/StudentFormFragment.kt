@@ -1,15 +1,20 @@
 package com.example.chooseyourcourse
 
 import android.os.Bundle
+import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
+import androidx.navigation.findNavController
 
 class StudentFormFragment : Fragment() {
     lateinit var databaseHelper : DatabaseHelper
+    var studentId: Int = 0
+    var showForm:Boolean = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,12 +33,71 @@ class StudentFormFragment : Fragment() {
         val studentName = view.findViewById<EditText>(R.id.studentName)
         val studentAge = view.findViewById<EditText>(R.id.studentAge)
         val saveButton = view.findViewById<Button>(R.id.save)
-        var studentObj: StudentModel
-//        studentObj.age = 12
+        val cancelButton = view.findViewById<Button>(R.id.cancel)
+        val navigateButton = view.findViewById<Button>(R.id.navigate)
+
         saveButton.setOnClickListener {
-//            databaseHelper.createStudent()
+            if(!TextUtils.isEmpty(studentName.text.toString()) && !TextUtils.isEmpty(studentAge.text.toString()) ) {
+                var student = StudentModel(name = studentName.text.toString(),
+                    age = studentAge.text.toString().toInt(),)
+                if (studentId > 0) {
+                    StudentModel(name = studentName.text.toString(),
+                        age = studentAge.text.toString().toInt(), id = studentId)
+                    updateData(student)
+                } else {
+                    createData(student)
+                }
+            } else {
+                Toast.makeText(activity, "Please fill up all of the fields",
+                    Toast.LENGTH_LONG).show();
+            }
+
+        }
+
+        cancelButton.setOnClickListener {
+            studentName.text.clear()
+            studentAge.text.clear()
+        }
+
+        navigateButton.setOnClickListener {
+            val action = StudentFormFragmentDirections.actionStudentFormFragmentToMarksFragment(studentId)
+            view.findNavController().navigate(action)
         }
 
     }
+
+    fun createData(studentModel: StudentModel) {
+        try {
+            val result = databaseHelper.createStudent(studentModel)
+            if (result>0) {
+                showForm = false
+                studentId = result
+                Toast.makeText(activity, "Student added successfully!",
+                    Toast.LENGTH_LONG).show();
+            }
+        }catch (e: Exception){
+            e.printStackTrace()
+            Toast.makeText(activity, "Error while adding student!",
+                Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    fun updateData(studentModel: StudentModel) {
+        try {
+            val result = databaseHelper.updateStudent(studentModel)
+            if (result) {
+                showForm = false
+                Toast.makeText(activity, "Student added successfully!",
+                    Toast.LENGTH_LONG).show();
+            }
+        }catch (e: Exception){
+            e.printStackTrace()
+            Toast.makeText(activity, "Error while adding student!",
+                Toast.LENGTH_LONG).show();
+        }
+
+    }
+
 
 }

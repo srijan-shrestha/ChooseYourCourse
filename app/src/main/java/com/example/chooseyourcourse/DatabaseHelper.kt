@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 
 
 class DatabaseHelper(val context: Context) : SQLiteOpenHelper(
@@ -118,20 +119,24 @@ class DatabaseHelper(val context: Context) : SQLiteOpenHelper(
         }
 
         cursor.close()
+        Log.i("info", subjectList.toString())
         return subjectList
     }
 
-    fun createStudent(studentModel: StudentModel): Boolean {
+    fun createStudent(studentModel: StudentModel): Int {
         val sqLiteDatabase = this.writableDatabase
         val contentValues = ContentValues()
         contentValues.put("Name", studentModel.name)
         contentValues.put("Age", studentModel.age)
         contentValues.put("GPA", studentModel.gpa)
         val result = sqLiteDatabase.insert("Student", null, contentValues)
+        println(result)
+
+        Log.i("info", result.toString())
         if (result.toInt() == -1){
-            return false
+            return 0
         }
-        return true
+        return result.toInt()
     }
 
     fun updateStudent(studentModel: StudentModel): Boolean {
