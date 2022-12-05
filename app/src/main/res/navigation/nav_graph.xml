@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/studentFormFragment">
+
+    <fragment
+        android:id="@+id/studentFormFragment"
+        android:name="com.example.chooseyourcourse.StudentFormFragment"
+        android:label="fragment_student_form"
+        tools:layout="@layout/fragment_student_form" />
+</navigation>
