@@ -14,6 +14,7 @@ import android.widget.Toast
 class MarksFragment : Fragment() {
     lateinit var databaseHelper : DatabaseHelper
     var studentId: Int = 0
+    var student: StudentModel? = null
     var showForm:Boolean = true
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,5 +63,9 @@ class MarksFragment : Fragment() {
     fun getSchools(): ArrayList<SchoolModel> {
          return databaseHelper.listSchool()
     }
+
+//    fun getStudent(): StudentModel {
+//        student = databaseHelper.
+//    }
 
 }
