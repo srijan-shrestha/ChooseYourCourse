@@ -44,7 +44,15 @@ class MarksFragment : Fragment() {
                 !TextUtils.isEmpty(scienceScore.text.toString()) && !TextUtils.isEmpty(languageScore.text.toString()) &&
                         !TextUtils.isEmpty(humanitiesScore.text.toString()) ){
 
+                val marks = ArrayList<Float>()
+                marks.add(mathScore.text.toString().toFloat())
+                marks.add(commerceScore.text.toString().toFloat())
+                marks.add(scienceScore.text.toString().toFloat())
+                marks.add(languageScore.text.toString().toFloat())
+                marks.add(humanitiesScore.text.toString().toFloat())
+
                 // code to calculate gpa
+                school.text = calculateGPA(marks)
 
                 // after gpa has been calculated
                 gpa.text = "4"
@@ -63,4 +71,23 @@ class MarksFragment : Fragment() {
          return databaseHelper.listSchool()
     }
 
+    fun calculateGPA(marks:ArrayList<Float>): String{
+        var totalGPA = 0.0f
+        for(s in marks){
+            totalGPA += ((s/4.0f)/20.0f)
+        }
+
+        if(totalGPA in 90.0..100.0){
+            return "School Of Engineering, since gpa = $totalGPA"
+        }
+        else if (totalGPA in 80.0..90.0){
+            return "School Of Business, since gpa = $totalGPA"
+        }
+        else if (totalGPA in 70.0..80.0){
+            return "Law School, since gpa = $totalGPA"
+        }
+        else{
+            return "Not Accepted, since gpa = $totalGPA"
+        }
+    }
 }
