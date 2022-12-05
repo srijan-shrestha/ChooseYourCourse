@@ -43,22 +43,26 @@ class MarksFragment : Fragment() {
         val school = view.findViewById<TextView>(R.id.school)
 
         val calculate = view.findViewById<Button>(R.id.calculate)
-
-
         calculate.setOnClickListener {
             if(!TextUtils.isEmpty(mathScore.text.toString()) && !TextUtils.isEmpty(commerceScore.text.toString()) &&
                 !TextUtils.isEmpty(scienceScore.text.toString()) && !TextUtils.isEmpty(languageScore.text.toString()) &&
                         !TextUtils.isEmpty(humanitiesScore.text.toString()) ){
 
-                // code to calculate gpa
+                val marks = ArrayList<Float>()
+                marks.add(mathScore.text.toString().toFloat())
+                marks.add(commerceScore.text.toString().toFloat())
+                marks.add(scienceScore.text.toString().toFloat())
+                marks.add(languageScore.text.toString().toFloat())
+                marks.add(humanitiesScore.text.toString().toFloat())
 
+                // code to calculate gpa
+                school.text = calculateGPA(marks)
 
                 // after gpa has been calculated
                 gpa.text = "4"
 
                 // code to assign schools
                 var schoolList = getSchools()
-
                 school.text = schoolList.toString()
             } else {
                 Toast.makeText(activity, "Please fill up all of the fields",
@@ -71,6 +75,25 @@ class MarksFragment : Fragment() {
          return databaseHelper.listSchool()
     }
 
+    fun calculateGPA(marks:ArrayList<Float>): String{
+        var totalGPA = 0.0f
+        for(s in marks){
+            totalGPA += ((s/4.0f)/20.0f)
+        }
+
+        if(totalGPA in 90.0..100.0){
+            return "School Of Engineering, since gpa = $totalGPA"
+        }
+        else if (totalGPA in 80.0..90.0){
+            return "School Of Business, since gpa = $totalGPA"
+        }
+        else if (totalGPA in 70.0..80.0){
+            return "Law School, since gpa = $totalGPA"
+        }
+        else{
+            return "Not Accepted, since gpa = $totalGPA"
+        }
+    }
     fun getStudentData() {
         try {
             student = databaseHelper.getStudentById(studentId.toInt())
