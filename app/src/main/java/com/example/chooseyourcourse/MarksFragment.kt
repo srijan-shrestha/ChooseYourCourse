@@ -64,7 +64,7 @@ class MarksFragment : Fragment() {
 
                 // code to assign schools
                 var schoolList = getSchools()
-                school.text = schoolList.toString()
+//                school.text = schoolList.toString()
             } else {
                 Toast.makeText(activity, "Please fill up all of the fields",
                     Toast.LENGTH_LONG).show();
@@ -79,7 +79,7 @@ class MarksFragment : Fragment() {
     fun calculateGPA(marks:ArrayList<Float>): Float{
         var totalGPA = 0.0f
         for(s in marks){
-            totalGPA += ((s/4.0f)/20.0f)
+            totalGPA += ((s*4.0f)/20.0f)
         }
 
         return totalGPA
@@ -87,10 +87,10 @@ class MarksFragment : Fragment() {
 
     fun assignSchool(gpa:Float): String{
         if(gpa in 90.0..100.0){
-            return "School Of Engineering"
+            return "School Of Engineering, School Of Business and Law School"
         }
         else if (gpa in 80.0..90.0){
-            return "School Of Business"
+            return "School Of Business and Law School"
         }
         else if (gpa in 70.0..80.0){
             return "Law School"

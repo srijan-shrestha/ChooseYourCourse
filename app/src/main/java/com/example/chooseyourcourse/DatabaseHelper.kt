@@ -152,6 +152,12 @@ class DatabaseHelper(val context: Context) : SQLiteOpenHelper(
         return true
     }
 
+    fun deleteStudent(id : Int) : Boolean {
+        val sqliteDatabase = this.writableDatabase
+        val deletedRaws = sqliteDatabase.delete("Student", "Id=$id", null);
+        return deletedRaws != 0
+    }
+
     fun getStudentById(id: Int): StudentModel {
         val sqLiteDatabase = this.readableDatabase
 
