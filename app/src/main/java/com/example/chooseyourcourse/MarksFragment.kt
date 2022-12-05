@@ -26,6 +26,9 @@ class MarksFragment : Fragment() {
         // Inflate the layout for this fragment
         val view =  inflater.inflate(R.layout.fragment_marks, container, false)
         databaseHelper = DatabaseHelper(view.context)
+        if (studentId.toInt()>0) {
+            getStudentData()
+        }
         return view
     }
 
@@ -40,6 +43,8 @@ class MarksFragment : Fragment() {
         val school = view.findViewById<TextView>(R.id.school)
 
         val calculate = view.findViewById<Button>(R.id.calculate)
+
+
         calculate.setOnClickListener {
             if(!TextUtils.isEmpty(mathScore.text.toString()) && !TextUtils.isEmpty(commerceScore.text.toString()) &&
                 !TextUtils.isEmpty(scienceScore.text.toString()) && !TextUtils.isEmpty(languageScore.text.toString()) &&
@@ -47,11 +52,13 @@ class MarksFragment : Fragment() {
 
                 // code to calculate gpa
 
+
                 // after gpa has been calculated
                 gpa.text = "4"
 
                 // code to assign schools
                 var schoolList = getSchools()
+
                 school.text = schoolList.toString()
             } else {
                 Toast.makeText(activity, "Please fill up all of the fields",
@@ -64,8 +71,30 @@ class MarksFragment : Fragment() {
          return databaseHelper.listSchool()
     }
 
-//    fun getStudent(): StudentModel {
-//        student = databaseHelper.
-//    }
+    fun getStudentData() {
+        try {
+            student = databaseHelper.getStudentById(studentId.toInt())
+        } catch (e: Exception){
+            e.printStackTrace()
+            Toast.makeText(activity, "Error while adding student!",
+                Toast.LENGTH_LONG).show();
+        }
+    }
+
+    fun saveStudentGPA(gpa: Float) {
+        try {
+            student?.gpa  = gpa.toDouble()
+            val result = student?.let { databaseHelper.updateStudent(it) }
+            if (result == true) {
+                Toast.makeText(activity, "GPA updated successfully!",
+                    Toast.LENGTH_LONG).show();
+            }
+        } catch (e: Exception){
+            e.printStackTrace()
+            Toast.makeText(activity, "Error while adding student!",
+                Toast.LENGTH_LONG).show();
+        }
+    }
+
 
 }

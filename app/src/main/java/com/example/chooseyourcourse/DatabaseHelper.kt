@@ -152,26 +152,26 @@ class DatabaseHelper(val context: Context) : SQLiteOpenHelper(
         return true
     }
 
-//    fun getStudentById(id: Int): StudentModel {
-//        val sqLiteDatabase = this.readableDatabase
-//
-//        val query = "SELECT * FROM student where ID=$id"
-//
-//        val cursor = try {
-//            sqLiteDatabase.rawQuery(query, null)
-//        }catch (e: java.lang.Exception) {
-//            arrangeDatabase(sqLiteDatabase)
-//            sqLiteDatabase.rawQuery(query, null)
-//        }
-//        cursor.moveToFirst()
-//        val student = StudentModel(cursor.getInt(0),
-//            cursor.getString(1),
-//            cursor.getInt(2),
-//            cursor.getFloat(3))
-//        cursor.close()
-//
-//        return student
-//    }
+    fun getStudentById(id: Int): StudentModel {
+        val sqLiteDatabase = this.readableDatabase
+
+        val query = "SELECT * FROM student where ID=$id"
+
+        val cursor = try {
+            sqLiteDatabase.rawQuery(query, null)
+        }catch (e: java.lang.Exception) {
+            arrangeDatabase(sqLiteDatabase)
+            sqLiteDatabase.rawQuery(query, null)
+        }
+        cursor.moveToFirst()
+        val student = StudentModel(cursor.getInt(0),
+            cursor.getString(1),
+            cursor.getInt(2),
+            cursor.getDouble(3))
+        cursor.close()
+
+        return student
+    }
 
 
 
