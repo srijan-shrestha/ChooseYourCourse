@@ -56,10 +56,11 @@ class MarksFragment : Fragment() {
                 marks.add(humanitiesScore.text.toString().toFloat())
 
                 // code to calculate gpa
-                school.text = calculateGPA(marks)
+                val totalGPA = calculateGPA(marks)
+                gpa.text = totalGPA.toString()
+                school.text = assignSchool(totalGPA)
 
-                // after gpa has been calculated
-                gpa.text = "4"
+
 
                 // code to assign schools
                 var schoolList = getSchools()
@@ -75,23 +76,27 @@ class MarksFragment : Fragment() {
          return databaseHelper.listSchool()
     }
 
-    fun calculateGPA(marks:ArrayList<Float>): String{
+    fun calculateGPA(marks:ArrayList<Float>): Float{
         var totalGPA = 0.0f
         for(s in marks){
             totalGPA += ((s/4.0f)/20.0f)
         }
 
-        if(totalGPA in 90.0..100.0){
-            return "School Of Engineering, since gpa = $totalGPA"
+        return totalGPA
+    }
+
+    fun assignSchool(gpa:Float): String{
+        if(gpa in 90.0..100.0){
+            return "School Of Engineering"
         }
-        else if (totalGPA in 80.0..90.0){
-            return "School Of Business, since gpa = $totalGPA"
+        else if (gpa in 80.0..90.0){
+            return "School Of Business"
         }
-        else if (totalGPA in 70.0..80.0){
-            return "Law School, since gpa = $totalGPA"
+        else if (gpa in 70.0..80.0){
+            return "Law School"
         }
         else{
-            return "Not Accepted, since gpa = $totalGPA"
+            return "Not Accepted, since gpa"
         }
     }
     fun getStudentData() {
